@@ -1,0 +1,1141 @@
+﻿<!-- Powered by Sxl.cn 4 (1) Mar 01, 2025 at 12:46-->
+<!DOCTYPE html>
+<html itemscope="" itemtype='http://schema.org/WebPage' lang='zh-CN' xmlns:og='http://ogp.me/ns#' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>地球村——交通强国·铁路先行 ||创造·生活||全球首个跨平台跨版本的MOD·插件·数据包混合服务器||独家创造模式体验系统 | 上线了sxl.cn</title>
+<!-- removing_gon has activated 100%, so we add not_removing_gon rollout for specific user -->
+<script src='dollars/v1/sites/emc/show.js' type='text/javascript'></script>
+<script>
+  function setCookieItem(key, value, options) {
+    if (typeof options.expires === 'number') {
+      var days = options.expires, t = options.expires = new Date();
+      t.setTime(+t + days * 864e+5);
+    }
+    return (document.cookie = [
+      encodeURIComponent(key), '=', encodeURIComponent(String(value)),
+      options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+      options.path    ? '; path=' + options.path : '',
+      options.domain  ? '; domain=' + options.domain : '',
+      options.secure  ? '; secure' : ''
+    ].join(''));
+  }
+  function getCookieItem(cookieName) {
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i].trim();
+      if (cookie.indexOf(name) === 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return null;
+  }
+  function getQueryParam(url, param) {
+    // Expects a raw URL
+    var newParam = param.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+    var regexS = '[\\?&]' + newParam + '=([^&#]*)';
+    var regex = new RegExp(regexS);
+    var results = regex.exec(url);
+    if (results === null || results && typeof results[1] !== 'string' && results[1].length) {
+      return '';
+    } else {
+      var result = results[1];
+      try {
+        result = decodeURIComponent(result);
+      } catch (err) {
+        console.error('Skipping decoding for malformed query param: ' + result);
+      }
+      return result.replace(/\+/g, ' ');
+    }
+  }
+  function utmNamesMapping(utmName) {
+    var expandedUtmName = '';
+    switch (utmName) {
+      case 'gclid':
+      case 'utm_gclid_current':
+        expandedUtmName = 'utm_gclid';
+        break;
+      default:
+        expandedUtmName = utmName;
+    }
+    return expandedUtmName;
+  }
+  function getTrackDomain() {
+    var trackDomain = '';
+    var hostName = document.domain;
+    var host = $S && $S.global_conf && $S.global_conf.host_suffix ||
+      $S && $S.globalConf && $S.globalConf.host_suffix || '';
+  
+    if (hostName && hostName.includes('.strikingly.com')) {
+      trackDomain = '.strikingly.com';
+    } else if (hostName && hostName.includes('.sxl.cn')) {
+      trackDomain = '.sxl.cn';
+    } else if ($S && $S.live_site || $S && $S.liveBlog) {
+      trackDomain = hostName;
+    } else if (host) {
+      trackDomain = "." + host;
+    } else {
+      trackDomain = location.href && location.href.includes('strikingly') ? '.strikingly.com' : '.sxl.cn';
+    }
+    return trackDomain;
+  }
+  function recordUniqUtmCookies(originUrl, needSetCookie = true) {
+    var campaign_keywords = 'utm_source gclid utm_medium utm_campaign utm_content utm_term'.split(' '),
+        kw = '',
+        uniq_utm_config = {};
+    var index;
+    var siteUrl = originUrl || document.URL;
+    for (index = 0; index < campaign_keywords.length; ++index) {
+      kw = getQueryParam(siteUrl, campaign_keywords[index]);
+      var utm_name = utmNamesMapping(campaign_keywords[index]);
+      if (kw.length !== 0) {
+        uniq_utm_config[utm_name] = kw;
+      }
+    }
+    var isUtmCookieExisted = document.cookie && document.cookie.includes('__uniq_utm_config=');
+    if (!isUtmCookieExisted) {
+      uniq_utm_config['utm_timestamp'] = new Date().getTime();
+      uniq_utm_config['utm_referrer'] = document.referrer;
+      var gclidValue = getQueryParam(siteUrl, 'gclid');
+      var gbraidValue = getQueryParam(siteUrl, 'gbraid');
+      var wbraidValue = getQueryParam(siteUrl, 'wbraid');
+      var ttclidValue = getQueryParam(siteUrl, 'ttclid');
+      var fbclidValue = getQueryParam(siteUrl, 'fbclid');
+      var msclkidValue = getQueryParam(siteUrl, 'msclkid');
+      var bdvidValue = getQueryParam(siteUrl, 'bd_vid');
+      if (gclidValue) {
+        uniq_utm_config['utm_gclid'] = gclidValue;
+      }
+      if (gbraidValue) {
+        uniq_utm_config['utm_gbraid'] = gbraidValue;
+      }
+      if (wbraidValue) {
+        uniq_utm_config['utm_wbraid'] = wbraidValue;
+      }
+      if (ttclidValue) {
+        uniq_utm_config['utm_ttclid'] = ttclidValue;
+      }
+      if (fbclidValue) {
+        uniq_utm_config['utm_fbclid'] = fbclidValue;
+      }
+      if (msclkidValue) {
+        uniq_utm_config['utm_msclkid'] = msclkidValue;
+      }
+      if (bdvidValue) {
+        uniq_utm_config['utm_bdvid'] = bdvidValue;
+        uniq_utm_config['utm_bdlogidurl'] = siteUrl;
+      }
+      if (needSetCookie) {
+        var cookieDomain = getTrackDomain();
+        var cookieConfig = {
+          expires: 120,
+          path: '/',
+          domain: cookieDomain
+        }
+        if (window.$ && window.$.cookie) {
+          window.$.cookie('__uniq_utm_config', JSON.stringify(uniq_utm_config), cookieConfig);
+        } else {
+          setCookieItem('__uniq_utm_config', JSON.stringify(uniq_utm_config), cookieConfig);
+        }
+      } else {
+        var utmLoopId = setInterval(()=> {
+          if(document.body) {
+            var $inputs = document.getElementsByClassName('sign-up-utm-config-input')
+            var configStr = encodeURIComponent(JSON.stringify(uniq_utm_config))
+            for (var $item of $inputs ) {
+              $item.value = configStr
+            }
+            clearInterval(utmLoopId)
+          }
+        }, 500)
+      }
+    }
+  }
+  function recordBaiDuAnalyticsCookies() {
+    var siteUrl = document.URL;
+    var baiduVid = getQueryParam(siteUrl, 'bd_vid');
+    if (baiduVid) {
+      var analyticsDomain = getTrackDomain();
+      setCookieItem('__bd_analytics_config', JSON.stringify({
+        bd_vid: baiduVid,
+        logid_url: siteUrl
+      }), {
+        expires: 120,
+        path: '/',
+        domain: analyticsDomain
+      });
+    }
+  }
+  function recordFacebookAnalyticsCookies() {
+    var siteUrl = document.URL;
+    var fbclid = getQueryParam(siteUrl, 'fbclid');
+    if (fbclid) {
+      var trackDomain = getTrackDomain();
+      setCookieItem('__fe_fbclid', fbclid, {
+        expires: 90,
+        path: '/',
+        domain: trackDomain
+      });
+    }
+  }
+  
+  const isEuVisitor = getCookieItem('__strk_cookie_eu_visitor') === 'true'
+  const isOpenStrkAnalyticsCookie = getCookieItem('__is_open_strk_analytics_cookie')
+  let cookieNotificationArea = undefined
+  let isShowCookieNotification = undefined
+  if($S && $S.stores && $S.stores.pageData) {
+    cookieNotificationArea = $S.stores.pageData.cookieNotificationArea
+    isShowCookieNotification = $S.stores.pageData.showCookieNotification
+    if(!isShowCookieNotification && $S.blogPostData && $S.blogPostData.pageData) {
+      isShowCookieNotification = $S.blogPostData.pageData.showCookieNotification
+    }
+  }
+  const isLiveSite = Boolean($S && $S.live_site)
+  
+  function handleRecordUniqUtmCookies() {
+    try {
+      if(isLiveSite) {
+        if(isShowCookieNotification) {
+          if(cookieNotificationArea === 'eu') {
+            if(isEuVisitor) {
+              return;
+            } else {
+              recordUniqUtmCookies();
+            }
+          } else {
+            return;
+          }
+        } else {
+          recordUniqUtmCookies();
+          return;
+        }
+      } else {
+        if (isEuVisitor && !getCookieItem('__is_open_strk_analytics_cookie')) {
+          recordUniqUtmCookies(null, false);
+          return;
+        } else if (!isEuVisitor) {
+          recordUniqUtmCookies();
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  // record unique utm cookies
+  handleRecordUniqUtmCookies();
+  
+  // record Bai Du analytics cookies for sxl
+  try {
+    if(isLiveSite) {
+      if(isShowCookieNotification) {
+        if(cookieNotificationArea === 'eu') {
+          if(!isEuVisitor) {
+            recordBaiDuAnalyticsCookies();
+          }
+        }
+      } else {
+        recordBaiDuAnalyticsCookies();
+      }
+    } else if (!isEuVisitor) {
+      recordBaiDuAnalyticsCookies();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  
+  function handleRecordFacebookAnalyticsCookies() {
+    try {
+      if(isLiveSite) {
+        if(isShowCookieNotification) {
+          if(cookieNotificationArea === 'eu') {
+            if(isEuVisitor) {
+              return;
+            } else {
+              recordFacebookAnalyticsCookies();
+            }
+          } else {
+            return;
+          }
+        } else {
+          recordFacebookAnalyticsCookies();
+          return;
+        }
+      } else if (!isEuVisitor) {
+        recordFacebookAnalyticsCookies();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  // record Fackbook analytics cookies
+  handleRecordFacebookAnalyticsCookies();
+</script>
+
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<meta content='width=device-width,initial-scale=1.0,user-scalable=yes,minimum-scale=1.0,maximum-scale=3.0' id='viewport' name='viewport'>
+<meta content='#ffffff' name='theme-color'>
+<style>
+  html,body{margin:0;padding:0}h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,cite,code,del,dfn,em,img,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,input,textarea,legend,button,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;font-size:100%;line-height:1;font-family:inherit}table{border-collapse:collapse;border-spacing:0}ol,ul{list-style:none}q:before,q:after,blockquote:before,blockquote:after{content:""}html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}a:focus{outline:thin dotted}article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0;-ms-interpolation-mode:bicubic}nav,section,aside,article,figure,header,footer,hgroup{display:block;clear:both}a{text-decoration:none}nav ul,footer ul{list-style-type:none}html{font-size:14px;line-height:1}input::-webkit-input-placeholder{color:#c0c4c8}
+</style>
+
+<link rel="preconnect" media="screen" href="https://static-fonts-css.sxlcdn.com" crossorigin="true">
+<link rel="preload" media="screen" href="css?family=Playfair+Display:400,700,400italic,700italic|Vollkorn:400,400italic|Open+Sans:300,regular,500,600,700,800,300italic,italic,500italic,600italic,700italic,800italic&amp;subset=latin,latin-ext&amp;display=swap" as="font">
+<link rel="stylesheet" media="print" href="css?family=Playfair+Display:400,700,400italic,700italic|Vollkorn:400,400italic|Open+Sans:300,regular,500,600,700,800,300italic,italic,500italic,600italic,700italic,800italic&amp;subset=latin,latin-ext&amp;display=swap" as="style" onload="this.media=&#39;all&#39;">
+<link rel="preload stylesheet" media="screen" href="themes/minimal/main_v4.b75ceadfdf76b68ae925.bundle.css" as="style" type="text/css" onload="if(media!==&#39;screen&#39;)media=&#39;screen&#39;">
+<link defer='true' href='images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png' rel='shortcut icon' type='image/x-icon'>
+<script type='application/ld+json'>
+{
+  "@context": "https://schema.org",
+  "@type": "website",
+  "name": "",
+  "description": ""
+}
+
+</script>
+<meta content='website' property='og:type'>
+<meta content='地球村——交通强国·铁路先行 ||创造·生活||全球首个跨平台跨版本的MOD·插件·数据包混合服务器||独家创造模式体验系统 | 上线了sxl.cn' property='og:title'>
+<meta content='https://emc.mysxl.cn/' property='og:url'>
+<meta content='https://user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/1200x630&gt;/quality/90!/format/png' property='og:image'>
+<meta content='地球村——交通强国·铁路先行 ||创造·生活||全球首个跨平台跨版本的MOD·插件·数据包混合服务器||独家创造模式体验系统' property='og:site_name'>
+<meta content='与自然同在，和生命永存&#x000A;交通强服——铁路先行' property='og:description'>
+<meta content='地球村——交通强国·铁路先行 ||创造·生活||全球首个跨平台跨版本的MOD·插件·数据包混合服务器||独家创造模式体验系统' itemprop='name'>
+<meta content='与自然同在，和生命永存&#x000A;交通强服——铁路先行' itemprop='description'>
+<meta content='https://user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/1200x630&gt;/quality/90!/format/png' itemprop='image'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='地球村——交通强国·铁路先行 ||创造·生活||全球首个跨平台跨版本的MOD·插件·数据包混合服务器||独家创造模式体验系统 | 上线了sxl.cn' name='twitter:title'>
+<meta content='与自然同在，和生命永存&#x000A;交通强服——铁路先行' name='twitter:description'>
+<meta content='https://user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/1200x630&gt;/quality/90!/format/png' name='twitter:image'>
+<meta content='与自然同在，和生命永存&#x000A;交通强服——铁路先行' name='description'>
+<meta content='狮子王,我的世界,MC,minecraft,世界地图,地球,原神,王者荣耀,习近平,新加坡,中华人民共和国,共产党,国民党,台湾,广东,中华民国,七大洲,南极洲,太平洋,大西洋,北冰洋,Minecraft,百度贴吧,百度' name='keywords'>
+<meta name="strikingly-host-suffix" content="sxl.cn">
+<meta name="support-helper" content="{&quot;permalink&quot;:&quot;emc&quot;,&quot;id&quot;:11833351}">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="58x58">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="76x76">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="80x80">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="87x87">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="114x114">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="120x120">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="152x152">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="167x167">
+<link href="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-1.png?imageMogr2/strip/auto-orient/thumbnail/64x64&gt;/quality/90!/format/png" rel="apple-touch-icon" sizes="180x180">
+<link rel="canonical" href="index.htm">
+<script>
+  if (!window.utils) window.utils = {}
+  window.utils.getCookieByName = (name) => {
+    const cookies = document.cookie.split(';')
+    for (const cookie of cookies) {
+      const [key, value] = cookie.trim().split('=')
+      if (key === name) {
+        return decodeURIComponent(value)
+      }
+    }
+    return ''
+  }
+</script>
+<script>
+var _strk = _strk || []
+_strk.push = function(arg1, arg2){
+  var _arrayPush = Array.prototype.push.bind(this)
+  if (typeof arg1 === 'string' && typeof arg2 === 'function') {
+    // Support _strk.push(event, fn) for better UX
+    _arrayPush([arg1, arg2])
+  } else {
+    _arrayPush.apply(this, arguments)
+  }
+}
+window.runAfterDomBinding = {
+  add: function(name, fn) {
+    _strk.push(['Page.didMount', fn])
+  }
+}
+</script>
+
+<meta name="google-site-verification" content="oGs9CxeXBb">
+<script>
+  var baiduSiteVerificationCode = '<meta name="baidu-site-verification" content="oGs9CxeXBb" />'
+</script>
+
+<!-- CUSTOM_CODE_START -->
+<!-- CUSTOM_CODE_END -->
+
+<meta name="asset-url" content="https://static-assets.sxlcdn.com">
+<script>
+  (function() {
+    window.$B || (window.$B = {});
+  
+    window.utils || (window.utils = {});
+  
+    window.utils.getCookieValue = function(name) {
+      var cookie, cookies, key, value, _i, _len, _ref;
+      cookies = document.cookie.split(';');
+      for (_i = 0, _len = cookies.length; _i < _len; _i++) {
+        cookie = cookies[_i];
+        _ref = cookie.trim().split('='), key = _ref[0], value = _ref[1];
+        if (key === name) {
+          return decodeURIComponent(value);
+        }
+      }
+      return '';
+    };
+  
+  }).call(this);
+</script>
+<script src="detectIE-c385c24313ef0e9e4e7a1e131bf5e59f0fbd468f9f9ef44fd6739ae84ef0c0a4.js" async="async"></script>
+
+</head>
+<body class='show  locale-zh-CN' id='user_sites' theme_name='minimal'>
+<div class='product-sxl' data-id='11833351' id='s-page-container'>
+<style>#nav-popover-panel.nav-dropdown-popover{z-index:999999;padding:0 0;width:-webkit-max-content;width:-moz-max-content;width:max-content;}#nav-popover-panel.nav-dropdown-popover .inner-content{background-color:white;border:none;border-radius:0;padding:unset;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container{background-color:white;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel{border-left:solid 1px #f4f6f8;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel{max-height:46vh;overflow-y:auto;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel .inner-container,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel .inner-container{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul{background-color:white;padding:0 0;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;text-align:left;box-shadow:none;margin:0;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li{width:100%;padding:0 0;margin-left:0;margin-right:0;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;outline:none;padding:15px;max-width:300px;box-sizing:border-box;cursor:pointer;word-break:break-word;left:0;border:none;background-color:inherit;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a:hover,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a:hover,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item:hover,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item:hover,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a.selected,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a.selected,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item.selected,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item.selected{background-color:inherit;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a:hover,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a:hover,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item:hover,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item:hover{background-color:#f4f6f8;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a:before,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a:before,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item:before,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item:before,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a:after,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a:after,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item:after,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item:after{content:none;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a .s-nav-text,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a .s-nav-text,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item .s-nav-text,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item .s-nav-text,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a .s-nav-dropdown-text,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a .s-nav-dropdown-text,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item .s-nav-dropdown-text,#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item .s-nav-dropdown-text{line-height:1.5;background:inherit;color:inherit;word-break:break-word;overflow :hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a:not(.selected),#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a:not(.selected),#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item:not(.selected),#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item:not(.selected){color:#2e2e2f;}.css-d1gx1#nav-popover-panel.nav-dropdown-popover{position:fixed;left:0px;top:0px;right:px;bottom:px;display:none;padding-top:0px;margin-left:unset !important;}.css-d1gx1#nav-popover-panel.nav-dropdown-popover .inner-content{box-shadow:none;}.css-d1gx1#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container{-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-d1gx1#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li a i.fa,.css-d1gx1#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li a i.fa,.css-d1gx1#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .main-panel ul li .s-nav-dropdown-item i.fa,.css-d1gx1#nav-popover-panel.nav-dropdown-popover .inner-content .panel-container .sub-panel ul li .s-nav-dropdown-item i.fa{margin:0 0 0 10px;}.css-e5ltrb.recaptcha-widget-container{min-width:300px;min-height:74px;position:relative;}.css-e5ltrb.recaptcha-widget-container.invisible{min-width:unset;min-height:unset;width:0;height:0;}.css-e5ltrb.recaptcha-widget-container.invisible .fa{display:none;}.css-e5ltrb.recaptcha-widget-container.invisible .grecaptcha-badge{visibility:hidden;}.css-e5ltrb.recaptcha-widget-container .loading-icon{font-size:20px;position:absolute;top:50%;left:50%;margin-left:-10px;margin-top:-10px;}.css-jz6m1c .s-section:not(.s-slider-section):not(.s-grid-section):not(.s-new-gallery-section):not(.s-blog-section):not(.s-store-section):not(.s-new-media-section):not(.s-accordion-section){display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-top:75px !important;padding-bottom:75px !important;}.css-jz6m1c .s-section:not(.s-slider-section):not(.s-grid-section):not(.s-new-gallery-section):not(.s-blog-section):not(.s-store-section):not(.s-new-media-section):not(.s-accordion-section) .container{margin:0 3%;max-width:94%;box-sizing:border-box;width:1000px !important;}.css-owv3vc{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}.css-owv3vc > a{margin:unset;}#s-content .css-vir0km.s-common-button.s-custom-btn,#s-use-site-style-config-container .css-vir0km.s-common-button.s-custom-btn,#new-section-dialog .css-vir0km.s-common-button.s-custom-btn{color:#fff;background:#787887;}#s-content .css-1roz1p.s-common-button.s-custom-btn,#s-use-site-style-config-container .css-1roz1p.s-common-button.s-custom-btn,#new-section-dialog .css-1roz1p.s-common-button.s-custom-btn{color:#fff;background:#14d71a;}</style><div data-hypernova-key="SiteBootstrapper" data-hypernova-id="9f7a75e2-f107-4239-bc37-d2de53e71c7e" data-hypernova-emotion-id="1iof6v2,d1gx1,e5ltrb,jz6m1c,1hsaozc,owv3vc,vir0km,1roz1p"><script>window.ssrIsLoaded=true</script><div id="s-page-client-container"><div><div id="s-content" class="s-variation-default s-custom-colors s-animation-image_link_hover-zoom_in s-font-body-song s-font-title-kai s-font-heading-song s-font-button-hei s-font-nav_item-song s-font-nav_dropdown-song s-font-weight-body-default s-font-weight-title-default s-font-weight-heading-default s-font-weight-button-default s-font-weight-nav_item-default s-font-weight-nav_dropdown-default s-entrance-mask s-template-minimal s-site-page-content" lang="zh-CN"><div class="social-thumbnail"><div style="display:none"><img src="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-2.png?imageMogr2/strip/auto-orient/thumbnail/1200x630&gt;/quality/90!/format/png" width="300" height="300" alt="thumbnail image"></div></div><div><style id="color-style-tag">.s-custom-colors .s-subtitle{color:#14d81a;}.s-custom-colors .s-item-subtitle{color:#14d81a;}.s-custom-colors .s-blog-wrapper .s-blog-col-placeholder .s-blog-details .s-blog-info{color:#14d81a;}.s-custom-colors .navbar-drawer-bar .navbar,.s-custom-colors .navbar-drawer-bar .mobile{background:#14d81a;}.s-custom-colors .s-common-button{
+      background-color: #14d81a;
+      background-repeat: repeat-x;
+      background-image: linear-gradient(to bottom, #15e21b, #13cd18);
+    }.s-custom-colors .s-common-button:hover{
+      background: #18ff1f;
+    }.s-custom-colors .s-mobile-actions .s-mobile-actions-item.one-item{background:#14d81a;}.s-custom-colors .s-mobile-actions .s-mobile-actions-item.selected:not(.one-item){color:#14d81a;}.s-custom-colors .s-bg-overlay:before{background:rgba(11,11,13,0.35);}.s-custom-colors .s-component.s-social-media ul.s-social-media-buttons .s-social-icon{background:rgba(20,216,26,0.5);}.s-custom-colors .fixed-login-container .login-container{background: #14d81a;}.s-custom-colors .s-ecommerce-row-view-product .s-ecommerce-row-view-product-thumbnail-list ul li.current{border: 2px solid #14d81a}.s-custom-colors .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-card .s-ecommerce-card-view-card-stock-warning{background: #14d81a;}.s-custom-colors .s-ecommerce-shopping-cart-wrapper .s-ecommerce-shopping-cart{background: #14d81a;}.s-custom-colors .s-ecommerce-shopping-cart-wrapper .s-ecommerce-shopping-cart.hovered{background: #14d81a;}.s-custom-colors .s-ecommerce-shopping-cart-wrapper .s-ecommerce-shopping-cart-mobile{
+        background: #dcdcdc;
+        border-top: 1px solid #b0b0b0;}.s-custom-colors .s-ecommerce-shopping-cart-wrapper .s-ecommerce-shopping-cart-mobile .check-btn{background: #14d81a;}.s-custom-colors .s-ecommerce-animation-item{
+        border: 2px solid #14d81a;
+        color: #14d81a;}.s-custom-colors .s-ecommerce-row-view-product .mobile-select .price-label{color: #14d81a}.s-custom-colors .s-ecommerce-row-view-product .mobile-select .variation-item.selected{border: 1px solid #14d81a; background: #14d81a;}.s-custom-colors .s-ecommerce-row-view-product .mobile-select .add-btn{background: #14d81a;}.s-custom-colors .s-ecommerce-row-view-product .slider-wrapper .slider-dot-wrapper .slider-dot{border: 1px solid #14d81a}.s-custom-colors .s-ecommerce-row-view-product .slider-wrapper .slider-dot-wrapper .slider-dot.selected{background: #14d81a}.s-custom-colors .s-section .s-category-bar .category-list .category-link-item.selected{color: #14d81a;}.s-custom-colors .s-section .s-category-bar .category-list .category-link-item.selected:after{background: #14d81a}.s-custom-colors .s-section .s-category-bar .category-list .category-link-item-wrapper:hover .category-link-item:not(.no-hover){color: #14d81a;}.s-custom-colors .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-cards .s-ecommerce-card-view-card .s-ecommerce-card-view-card-price{color: #14d81a;}.s-custom-colors .s-ecommerce .s-ecommerce-row-view-product .s-ecommerce-row-view-product-detail-panel .s-ecommerce-row-view-product-pricing{color: #14d81a;}.s-custom-colors .s-ecommerce .s-ecommerce-products-wrapper .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-detail .s-ecommerce-card-view-detail-header .next-product-btn{color: #14d81a;}.s-custom-colors .s-ecommerce .s-ecommerce-products-wrapper .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-detail .s-ecommerce-card-view-detail-header .prev-product-btn{color: #14d81a;}.s-custom-colors .s-ecommerce .s-ecommerce-products-wrapper .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-detail .s-ecommerce-card-view-detail-header .back-btn{color: #14d81a;}.s-custom-colors .s-ecommerce .s-ecommerce-products-wrapper .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-detail .s-ecommerce-card-view-detail-header .next-product-btn:hover{color: #43df47;}.s-custom-colors .s-ecommerce .s-ecommerce-products-wrapper .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-detail .s-ecommerce-card-view-detail-header .prev-product-btn:hover{color: #43df47;}.s-custom-colors .s-ecommerce .s-ecommerce-products-wrapper .s-ecommerce-card-view-wrapper .s-ecommerce-card-view-detail .s-ecommerce-card-view-detail-header .back-btn:hover{color: #43df47;}.s-custom-colors .s-donation-section .s-component.s-donation .s-donation-progress .progress-bar .progress{background: #14d81a}.s-custom-colors .s-donation-section .s-component.s-donation .s-donation-progress .progress-bar .indicator:before{background: #14d81a}.s-custom-colors .s-donation-section .s-component.s-donation .s-donation-progress .progress-bar .indicator:after{border-top-color: #14d81a}.s-custom-colors {--main-color: #14d81a}.s-custom-colors .s-theme-color-1{color: #14d81a}.s-custom-colors .s-bg-theme-color-1{background-color: #14d81a}.s-custom-colors .s-bg-theme-color-fade-1{background-color: rgba(20,216,26,0.07)}.s-custom-colors .s-bg-theme-color-fade-2{background-color: rgba(20,216,26,0.2)}.s-custom-colors .s-border-theme-color-1{border-color: #14d81a}.s-custom-colors .s-button-theme-style{background-color: rgba(20,216,26,0.2); color: #14d81a}.s-custom-colors .s-button-theme-style-shadow{background-color: rgba(20,216,26,0.2); box-shadow: 0px 3px 0 rgba(20,216,26,0.2); color: #14d81a}.s-custom-colors .s-button-theme-style-border{background-color: rgba(20,216,26,0.2); border: 2px solid rgba(20,216,26,0.2); color1: #14d81a}.s-custom-colors .s-button-theme-style-important{background-color: rgba(20,216,26,0.2) !important; color: #14d81a !important}
+.s-custom-colors .navigator .nav-container .nav ul li a:hover,
+.s-custom-colors .navigator .nav-container .nav ul li a.selected {
+  background: #ededed;
+}
+.s-custom-colors .navigator .nav-container .nav ul.items li,
+.s-custom-colors .navigator .nav-container .nav ul.items,
+.s-custom-colors .navigator {
+  border-color: #cacacb;
+}
+
+.s-custom-colors .s-section.s-bg-gray, .s-custom-colors .s-component.s-background .s-component-editor .stock-images li.s-bg-gray {
+  background-color: #ededed;
+}
+
+.s-custom-colors .dummy-shadow {
+  box-shadow: #dcdcdc 0 0 10px 0 inset;
+}
+.navbar-drawer.strikingly-drawer ul#nav-drawer-list {
+  border-right: 1px solid #ededed;
+}
+.navbar-drawer.strikingly-drawer ul#nav-drawer-list li a.selected {
+  background: #ededed;
+  box-shadow: 5px 0 0 0 #cacacb inset;
+}
+.navbar-drawer.strikingly-drawer ul#nav-drawer-list li a {
+  border-bottom: 1px solid #cacacb;
+}.s-custom-colors .s-text-color-custom1{ color: #14d81a; }
+.s-custom-colors .s-text-color-custom2{ color: #17171a; }
+</style><style id="font-style-tag">
+    #s-content.s-font-body-song .s-font-body {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #s-content.s-font-body-song .s-font-body:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #s-content.s-font-body-song .s-font-body:lang(zh-cn),
+    #s-content.s-font-body-song .s-font-body:lang(sxl),
+    #s-content.s-font-body-song .s-font-body:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #s-content.s-font-body-song .s-font-body:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #s-content.s-font-title-kai .s-font-title {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, null;
+    }
+    #s-content.s-font-title-kai .s-font-title:lang(ja) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #s-content.s-font-title-kai .s-font-title:lang(zh-cn),
+    #s-content.s-font-title-kai .s-font-title:lang(sxl),
+    #s-content.s-font-title-kai .s-font-title:lang(zh) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #s-content.s-font-title-kai .s-font-title:lang(zh-tw) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null;
+    }
+  
+    #s-content.s-font-heading-song .s-font-heading {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #s-content.s-font-heading-song .s-font-heading:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #s-content.s-font-heading-song .s-font-heading:lang(zh-cn),
+    #s-content.s-font-heading-song .s-font-heading:lang(sxl),
+    #s-content.s-font-heading-song .s-font-heading:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #s-content.s-font-heading-song .s-font-heading:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #s-content.s-font-button-hei .s-font-button {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+    }
+    #s-content.s-font-button-hei .s-font-button:lang(ja) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #s-content.s-font-button-hei .s-font-button:lang(zh-cn),
+    #s-content.s-font-button-hei .s-font-button:lang(sxl),
+    #s-content.s-font-button-hei .s-font-button:lang(zh) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #s-content.s-font-button-hei .s-font-button:lang(zh-tw) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #s-content.s-font-nav_item-song .s-font-nav_item {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #s-content.s-font-nav_item-song .s-font-nav_item:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #s-content.s-font-nav_item-song .s-font-nav_item:lang(zh-cn),
+    #s-content.s-font-nav_item-song .s-font-nav_item:lang(sxl),
+    #s-content.s-font-nav_item-song .s-font-nav_item:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #s-content.s-font-nav_item-song .s-font-nav_item:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #s-content.s-font-nav_dropdown-song .s-font-nav_dropdown {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #s-content.s-font-nav_dropdown-song .s-font-nav_dropdown:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #s-content.s-font-nav_dropdown-song .s-font-nav_dropdown:lang(zh-cn),
+    #s-content.s-font-nav_dropdown-song .s-font-nav_dropdown:lang(sxl),
+    #s-content.s-font-nav_dropdown-song .s-font-nav_dropdown:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #s-content.s-font-nav_dropdown-song .s-font-nav_dropdown:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  </style></div><div class="s-navbar-section navigator"><div class="nav-container nav-multiple-page"><div id="s-nav" class="nav center"><div class="logo ib"><div class="s-component s-image"><div><div class="s-component-content"><div class="s-img-wrapper"><img src="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-3.png?imageMogr2/strip/auto-orient/thumbnail/300x300&gt;/quality/90!/format/png" alt="一个方方正正的“地球”" title="一个方方正正的“地球”" class="crop-default" data-description="" data-image-link="javascript:void(0);"></div></div></div></div></div><ul class="ib items s-nav"><li class="menu-dropdown"><a class="s-nav-item s-font-body selected" target="_self" href="index.htm">首页</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="2.html">博客文章</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="video.html">景观·视频</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="picture.html">景观·美图</a></li><li class="menu-dropdown"><div class="s-nav-link-container located-dropdown-item" style="position:relative;pointer-events:auto"><div class="s-nav-item s-font-body s-nav-dropdown"><span class="s-nav-dropdown-item s-nav-item undefined"><span class="s-font-body s-nav-dropdown-text">外部链接<!-- --> <i class="fa drop-down-icon-bold fas fa-chevron-down"></i></span></span></div><div id="nav-popover-panel" class="nav-dropdown-popover css-d1gx1"><div class="inner-content"><div class="panel-container s-variation-default s-custom-colors s-font-body-song s-font-title-kai s-font-heading-song s-font-button-hei s-font-nav_item-song s-font-nav_dropdown-song s-font-weight-body-default s-font-weight-title-default s-font-weight-heading-default s-font-weight-button-default s-font-weight-nav_item-default s-font-weight-nav_dropdown-default" id="nav-dropdown-panel"><style id="font-style-tag-nav-dropdown-panel">
+    #nav-dropdown-panel.s-font-body-song .s-font-body {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-cn),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(sxl),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-title-kai .s-font-title {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, null;
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(ja) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-cn),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(sxl),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-tw) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null;
+    }
+  
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-cn),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(sxl),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-button-hei .s-font-button {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(ja) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-cn),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(sxl),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-tw) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  </style><div class="main-panel"><ul><li><a class="s-nav-dropdown-item" target="_blank" href="https://www.sxl.cnhttps://play.mcmod.cn/sv20187577.html"><span class="s-font-nav_dropdown s-nav-text">MC百科</span></a></li></ul></div></div></div></div></div></li></ul><ul class="ib links"><li id="loginContainer"></li><li id="s-ecommerce-nav-shopping-cart-wrapper" class="s-ecommerce-nav-shopping-cart-wrapper"></li></ul><ul class="overflow"><li class="menu-dropdown"><a class="s-nav-item s-font-body selected" target="_self" href="index.htm">首页</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="2.html">博客文章</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="video.html">景观·视频</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="picture.html">景观·美图</a></li><li class="menu-dropdown"><div class="s-nav-link-container located-dropdown-item" style="position:relative;pointer-events:auto"><div class="s-nav-item s-font-body s-nav-dropdown"><span class="s-nav-dropdown-item s-nav-item undefined"><span class="s-font-body s-nav-dropdown-text">外部链接<!-- --> <i class="fa drop-down-icon-bold fas fa-chevron-down"></i></span></span></div><div id="nav-popover-panel" class="nav-dropdown-popover css-d1gx1"><div class="inner-content"><div class="panel-container s-variation-default s-custom-colors s-font-body-song s-font-title-kai s-font-heading-song s-font-button-hei s-font-nav_item-song s-font-nav_dropdown-song s-font-weight-body-default s-font-weight-title-default s-font-weight-heading-default s-font-weight-button-default s-font-weight-nav_item-default s-font-weight-nav_dropdown-default" id="nav-dropdown-panel"><style id="font-style-tag-nav-dropdown-panel">
+    #nav-dropdown-panel.s-font-body-song .s-font-body {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-cn),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(sxl),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-title-kai .s-font-title {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, null;
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(ja) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-cn),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(sxl),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-tw) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null;
+    }
+  
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-cn),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(sxl),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-button-hei .s-font-button {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(ja) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-cn),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(sxl),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-tw) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  </style><div class="main-panel"><ul><li><a class="s-nav-dropdown-item" target="_blank" href="https://www.sxl.cnhttps://play.mcmod.cn/sv20187577.html"><span class="s-font-nav_dropdown s-nav-text">MC百科</span></a></li></ul></div></div></div></div></div></li></ul></div><div id="s-original-nav" class=""><ul class="ib items s-nav"><li class="menu-dropdown"><a class="s-nav-item s-font-body selected" target="_self" href="index.htm">首页</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="2.html">博客文章</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="video.html">景观·视频</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="picture.html">景观·美图</a></li><li class="menu-dropdown"><div class="s-nav-link-container located-dropdown-item" style="position:relative;pointer-events:auto"><div class="s-nav-item s-font-body s-nav-dropdown"><span class="s-nav-dropdown-item s-nav-item undefined"><span class="s-font-body s-nav-dropdown-text">外部链接<!-- --> <i class="fa drop-down-icon-bold fas fa-chevron-down"></i></span></span></div><div id="nav-popover-panel" class="nav-dropdown-popover css-d1gx1"><div class="inner-content"><div class="panel-container s-variation-default s-custom-colors s-font-body-song s-font-title-kai s-font-heading-song s-font-button-hei s-font-nav_item-song s-font-nav_dropdown-song s-font-weight-body-default s-font-weight-title-default s-font-weight-heading-default s-font-weight-button-default s-font-weight-nav_item-default s-font-weight-nav_dropdown-default" id="nav-dropdown-panel"><style id="font-style-tag-nav-dropdown-panel">
+    #nav-dropdown-panel.s-font-body-song .s-font-body {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-cn),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(sxl),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-title-kai .s-font-title {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, null;
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(ja) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-cn),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(sxl),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-tw) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null;
+    }
+  
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-cn),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(sxl),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-button-hei .s-font-button {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(ja) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-cn),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(sxl),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-tw) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  </style><div class="main-panel"><ul><li><a class="s-nav-dropdown-item" target="_blank" href="https://www.sxl.cnhttps://play.mcmod.cn/sv20187577.html"><span class="s-font-nav_dropdown s-nav-text">MC百科</span></a></li></ul></div></div></div></div></div></li></ul></div></div></div><div class="s-navbar-section navigator fake-nav" style="position:relative;opacity:0;visibility:hidden"><div class="nav-container nav-multiple-page"><div id="s-fake-nav" class="nav center"><ul class="ib items s-nav"><li class="menu-dropdown"><a class="s-nav-item s-font-body selected" target="_self" href="index.htm">首页</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="2.html">博客文章</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="video.html">景观·视频</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="picture.html">景观·美图</a></li><li class="menu-dropdown"><div class="s-nav-link-container located-dropdown-item" style="position:relative;pointer-events:auto"><div class="s-nav-item s-font-body s-nav-dropdown"><span class="s-nav-dropdown-item s-nav-item undefined"><span class="s-font-body s-nav-dropdown-text">外部链接<!-- --> <i class="fa drop-down-icon-bold fas fa-chevron-down"></i></span></span></div><div id="nav-popover-panel" class="nav-dropdown-popover css-d1gx1"><div class="inner-content"><div class="panel-container s-variation-default s-custom-colors s-font-body-song s-font-title-kai s-font-heading-song s-font-button-hei s-font-nav_item-song s-font-nav_dropdown-song s-font-weight-body-default s-font-weight-title-default s-font-weight-heading-default s-font-weight-button-default s-font-weight-nav_item-default s-font-weight-nav_dropdown-default" id="nav-dropdown-panel"><style id="font-style-tag-nav-dropdown-panel">
+    #nav-dropdown-panel.s-font-body-song .s-font-body {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-cn),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(sxl),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-title-kai .s-font-title {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, null;
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(ja) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-cn),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(sxl),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-tw) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null;
+    }
+  
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-cn),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(sxl),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-button-hei .s-font-button {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(ja) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-cn),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(sxl),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-tw) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  </style><div class="main-panel"><ul><li><a class="s-nav-dropdown-item" target="_blank" href="https://www.sxl.cnhttps://play.mcmod.cn/sv20187577.html"><span class="s-font-nav_dropdown s-nav-text">MC百科</span></a></li></ul></div></div></div></div></div></li></ul><ul class="ib links"><li id="loginContainer"></li><li id="s-ecommerce-nav-shopping-cart-wrapper" class="s-ecommerce-nav-shopping-cart-wrapper"></li></ul><ul class="overflow"><li class="menu-dropdown"><a class="s-nav-item s-font-body selected" target="_self" href="index.htm">首页</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="2.html">博客文章</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="video.html">景观·视频</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="picture.html">景观·美图</a></li><li class="menu-dropdown"><div class="s-nav-link-container located-dropdown-item" style="position:relative;pointer-events:auto"><div class="s-nav-item s-font-body s-nav-dropdown"><span class="s-nav-dropdown-item s-nav-item undefined"><span class="s-font-body s-nav-dropdown-text">外部链接<!-- --> <i class="fa drop-down-icon-bold fas fa-chevron-down"></i></span></span></div><div id="nav-popover-panel" class="nav-dropdown-popover css-d1gx1"><div class="inner-content"><div class="panel-container s-variation-default s-custom-colors s-font-body-song s-font-title-kai s-font-heading-song s-font-button-hei s-font-nav_item-song s-font-nav_dropdown-song s-font-weight-body-default s-font-weight-title-default s-font-weight-heading-default s-font-weight-button-default s-font-weight-nav_item-default s-font-weight-nav_dropdown-default" id="nav-dropdown-panel"><style id="font-style-tag-nav-dropdown-panel">
+    #nav-dropdown-panel.s-font-body-song .s-font-body {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-cn),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(sxl),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-title-kai .s-font-title {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, null;
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(ja) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-cn),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(sxl),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-tw) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null;
+    }
+  
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-cn),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(sxl),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-button-hei .s-font-button {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(ja) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-cn),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(sxl),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-tw) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  </style><div class="main-panel"><ul><li><a class="s-nav-dropdown-item" target="_blank" href="https://www.sxl.cnhttps://play.mcmod.cn/sv20187577.html"><span class="s-font-nav_dropdown s-nav-text">MC百科</span></a></li></ul></div></div></div></div></div></li></ul></div><div id="s-original-nav" class="s-fake-original-nav"><ul class="ib items s-nav"><li class="menu-dropdown"><a class="s-nav-item s-font-body selected" target="_self" href="index.htm">首页</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="2.html">博客文章</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="video.html">景观·视频</a></li><li class="menu-dropdown"><a class="s-nav-item s-font-body" target="_self" href="picture.html">景观·美图</a></li><li class="menu-dropdown"><div class="s-nav-link-container located-dropdown-item" style="position:relative;pointer-events:auto"><div class="s-nav-item s-font-body s-nav-dropdown"><span class="s-nav-dropdown-item s-nav-item undefined"><span class="s-font-body s-nav-dropdown-text">外部链接<!-- --> <i class="fa drop-down-icon-bold fas fa-chevron-down"></i></span></span></div><div id="nav-popover-panel" class="nav-dropdown-popover css-d1gx1"><div class="inner-content"><div class="panel-container s-variation-default s-custom-colors s-font-body-song s-font-title-kai s-font-heading-song s-font-button-hei s-font-nav_item-song s-font-nav_dropdown-song s-font-weight-body-default s-font-weight-title-default s-font-weight-heading-default s-font-weight-button-default s-font-weight-nav_item-default s-font-weight-nav_dropdown-default" id="nav-dropdown-panel"><style id="font-style-tag-nav-dropdown-panel">
+    #nav-dropdown-panel.s-font-body-song .s-font-body {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-cn),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(sxl),
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-body-song .s-font-body:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-title-kai .s-font-title {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, null;
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(ja) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-cn),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(sxl),
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null
+    }
+    #nav-dropdown-panel.s-font-title-kai .s-font-title:lang(zh-tw) {
+      font-family: "Times New Roman", STKaiTi, KaiTi, Kaiti_GB2312, undefined, null;
+    }
+  
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-cn),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(sxl),
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-heading-song .s-font-heading:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-button-hei .s-font-button {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(ja) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-cn),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(sxl),
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-button-hei .s-font-button:lang(zh-tw) {
+      font-family: "Open Sans", "open_sans", "Lucida Grande", "Verdana", "Pingfang SC", "Pingfang TC", "Hiragino Sans GB", "Microsoft YaHei", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_item-song .s-font-navitem:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", serif;
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(ja) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic", serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-cn),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(sxl),
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", Cardo, STSong, "Songti SC", SimSun, "PingFang SC", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif
+    }
+    #nav-dropdown-panel.s-font-nav_dropdown-song .s-font-navdropdown:lang(zh-tw) {
+      font-family: "Cardo", "STSong", "Songti SC", "SimSun", 'PingFang TC','Microsoft JhengHei',"微軟正黑體",STXihei, serif;
+    }
+  </style><div class="main-panel"><ul><li><a class="s-nav-dropdown-item" target="_blank" href="https://www.sxl.cnhttps://play.mcmod.cn/sv20187577.html"><span class="s-font-nav_dropdown s-nav-text">MC百科</span></a></li></ul></div></div></div></div></div></li></ul></div></div></div><div class="page-wrapper"><div id="prerendered-inline-theme-html"></div><ul style="display:block" class="slides s-page-1  "><li class="slide s-section-1 s-first-visible-section " id="section-f_53261a38-070a-4de1-ad50-b8123bfa757e"><div class="waypoint"></div><div class="section-anchor"></div><div class="lazyload s-bg-image s-bg-blurred s-bg-light-text s-bg-overlay s-contact-section s-section   background-image" style="background-repeat:no-repeat;background-size:cover;background-color:transparent;background-position:50% 50%;background-image:url(images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png)" data-bg="//user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/2000x1500&gt;/quality/90!/format/png" data-react-style="{&quot;backgroundRepeat&quot;:&quot;no-repeat&quot;,&quot;backgroundSize&quot;:&quot;cover&quot;,&quot;backgroundColor&quot;:&quot;transparent&quot;,&quot;backgroundPosition&quot;:&quot;50% 50%&quot;}"><style data-emotion="css 1tnf9eu">.css-1tnf9eu{position:absolute;top:0;left:0;width:100%;height:100%;line-height:1;-webkit-backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);-webkit-transition:all ease-in 0.2s;transition:all ease-in 0.2s;}.css-1tnf9eu.loaded{-webkit-backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);visibility:hidden;}</style><div class="blurred-layer css-1tnf9eu css-1oh32810"></div><div class="container "><div class="columns sixteen"><div class="s-title-group"><div class="s-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-title" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 45px;">当风吹过的时候,你能感觉到大地的脉动</p><h2 class=" font-size-tag-header-two s-text-font-size-over-default" style="font-size: 28px;"><span style="color: #e4e4e7;">欢迎来到地球村 Minecraft 服务器 </span></h2><p><span style="display: inline-block">&nbsp;</span></p></div></div></div></div></div><div class="s-subtitle"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="background-color: rgba(191, 191, 191, 0.4); display: block;"><h3 class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper font-size-tag-header-three s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 24px;"><span style="color: #ffffff;"><strong>这里是地球村（</strong></span>Global village<strong>），是每一个积木(方块)人共同的家园。</strong></h3><p style="font-size: 20px;"><span style="color: #ffffff;">欢迎世界各地的方块人们来到这新的方块大陆。在一片1：1000的</span><span style="color: #ffffff;"><a style="color: #ffffff;" href="http://map.earthvillage.top/" data-type="undefined" target="_blank">世界地图</a></span><span style="color: #ffffff;">上展开新方块大陆波澜壮阔的故事！</span></p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="color: #ffffff;">这里是一个自由开放的世界，充满了无限的可能性。无论你是建筑爱好者、冒险家，还是喜欢挑战自我的玩家，这里都有适合你的多样玩法。我们提供跨版本与跨平台的支持，让你随时随地享受游戏乐趣。此外，服务器内藏有丰富的彩蛋与独特功能，带给你前所未有的游戏体验。加入我们，一同创造和分享那些难忘的瞬间吧！</span></p><p><span style="display: inline-block">&nbsp;</span></p></div></div></div></div></div></div><div class="s-email-form-container "><div class="s-email-form-container"><div class="s-component s-form s-email-form"><div><div class="s-component-content"><div><div class="s-email-form-fields-group"><div class="s-email-form-inputs-group s-email-form-small-fields-2"><div class="s-email-form-small-fields-group"><div class="s-email-form-field s-name-field"><div class="s-font-body"><label>你的名字（在服务器中的注册名字）</label><input type="text" aria-label="你的名字（在服务器中的注册名字）" value=""></div></div><div class="s-email-field s-email-form-field">
+          <div class="s-font-body"><label>邮箱</label><input type="text" aria-label="邮箱" value=""></div>
+        </div></div><div class="s-email-form-field s-message-field">
+        <div class="s-font-body"><label>留言——有什么要说的吗？</label><textarea type="text" aria-label="留言——有什么要说的吗？"></textarea></div>
+      </div>
+      <div class="recaptcha-wrapper invisible"><div class="css-e5ltrb recaptcha-widget-container  invisible"><span class="fa fa-spinner fa-pulse loading-icon"></span><div style="visibility:hidden" class="g-recaptcha" data-size="invisible"></div></div></div>
+      <!-- -->
+    </div><div class="s-email-form-field s-submit-field"><button sectionstyleprops="[object Object]" class="s-email-form-button s-common-button s-font-button">
+        <!-- -->立即💎报到<!-- -->
+      </button></div><div class="s-email-form-field s-hp-field" style="display:none"><label>Comment</label><input type="text"></div></div></div></div></div></div></div></div></div></div></div></li><li class="slide s-section-2 s-s6-wrapper css-jz6m1c" id="section-f_59c91654-a776-427d-970a-44b46dedcace"><div class="waypoint"></div><div class="section-anchor"></div><div><div class="lazyload  s-section s6-section   s-no-bg s-bg-white s-bg-dark-text  s-block-section background-image" style="background-color:#E8EAEC" data-react-style="{&quot;backgroundColor&quot;:&quot;#E8EAEC&quot;}"><div class="container"><div><div id="f_ed6ecf5c-4eaf-434e-8cf9-22230c8ca637" class="s-row" position="1,0"><div class="s-row-content vertical-align-middle"><div id="f_9c9002c9-cbd7-423d-bff9-73968e97b171" position="1,0,0" class="s-col col-12"><div class="col-list col-align-null"><div id="f_de5be76b-8e84-4f6c-bec8-9a76208d5675" class="s-element-blockcomponentitem" position="1,0,0,0"><div id="f_de5be76b-8e84-4f6c-bec8-9a76208d5675" position="1,0,0,0" class="s-element" columnssize="1" elementssize="1"><div class="s-element-content"><div class="s-component s-block s-block-title s-block-blockcomponentitem "> <div><div><div class="s-block-item-inner clearfix" style="position:relative"><div class=""><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><div><div class="s-rich-text-wrapper" style="display: block;"><h2 class="s-title s-font-title s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">地球村是啥？</h2><h4 class="s-subtitle"><span style="color: #000000;">我和你，心连心——同住地球村</span></h4></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div><div id="f_9f704fba-d4a3-4016-b020-6ccefd188126" class="s-row" position="1,1"><div class="s-row-content vertical-align-middle"><div id="f_eaadb494-9269-4d86-be5f-3d780657653f" position="1,1,0" class="s-col col-12"><div class="col-list col-align-null"><div id="f_d931fa99-3e47-40dd-be1b-217847630604" class="s-element-blockcomponentitem" position="1,1,0,0"><div id="f_d931fa99-3e47-40dd-be1b-217847630604" position="1,1,0,0" class="s-element" columnssize="1" elementssize="1"><div class="s-element-content"><div class="s-component s-block s-block-title s-block-blockcomponentitem "> <div><div><div class="s-block-item-inner clearfix" style="position:relative"><div class=""><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><h3><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper font-size-tag-paragraph s-text-font-size-over-default s-rich-text-wrapper" style="font-size: 18px;"><span style="color: #000000; "><em>地球村也译为世界村(global village)，对地球的一种比喻说法。现代科技的迅速发展，缩小了地球上的时空距离，国际交往日益频繁便利，因而整个地球就如同是茫茫宇宙中的一个小村落。</em></span><span><em>&nbsp;</em></span></p><p class="s-rich-text-wrapper font-size-tag-paragraph s-text-font-size-over-default s-rich-text-wrapper" style="font-size: 18px;">而在我们多人游戏游戏服务器···</p></div></h3></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div><div id="8f3fd059-0759-4255-8ac6-d62bdb0ceb85" class="s-row" position="1,2"><div class="s-row-content vertical-align-middle"><div id="bffee40a-e8c4-4518-82cd-ff948dbc8f69" position="1,2,0" class="s-col col-12"><div class="col-list col-align-undefined"><div id="c8adaea1-0abb-4ba7-9053-94fe11cdf4f4" class="s-element-blockcomponentitem" position="1,2,0,0"><div id="c8adaea1-0abb-4ba7-9053-94fe11cdf4f4" position="1,2,0,0" class="s-element" columnssize="1" elementssize="1"><div class="s-element-content"><div class="s-component s-block s-block-largeprofile s-block-blockcomponentitem "> <div><div><div class="s-block-item-inner clearfix" style="position:relative"><div class=""><div class="s-feature-list-item-grid-media-position-top s-feature-list-item-horizontal-alignment-center new-feature-list-item" style="--cardColor:#bef9c0;--borderColor:#000000"><div class="s-block-profile large-profile"><div class="s-item-media-group s-mhi"><div class="s-component s-media "><div><div class="s-component-content"><div class="s-img-wrapper"><div class="s-ratio-box" style="max-width:188px;max-height:188px"><div class="s-ratio-fill" style="padding-bottom:100.00%"></div><div class="s-img-wrapper"><img alt="broken image" title="" class="lazyload crop-default" data-description="" data-image-link="javascript:void(0);" width="188" height="188" src="images/590080/FkD3qw_JkLPQZ00sVY73t7p_zBHt.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000&gt;/interlace/1/format/jpg" data-src="//user-assets.sxlcdn.com/images/590080/FkD3qw_JkLPQZ00sVY73t7p_zBHt.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000&gt;/interlace/1/format/jpg"></div></div></div></div></div></div></div><div class="s-item-text-group s-mh"><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><h3><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper"> 新人引导</p></div></h3></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper font-size-tag-small s-text-font-size-over-default" style="font-size: 12px;"> IP是什么？怎么玩？有什么MOD？如何xxx？怎样XXX？可不可以用***？什么版本？......</p></div></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><ol><li class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="text-align: left;"><span style="color: #24292f;"><strong>自由开放的世界</strong></span><span style="color: #24292f;">：在这里，你可以随心所欲地探索和创造（在道德约束下，这里堪称“无管理”的“2B2T”型服务器）。</span></li><li style="text-align: left;"><span style="color: #24292f;"><strong>丰富多样的玩法</strong></span><span style="color: #24292f;">：我们不仅限于单一玩法，还融合了MOD、插件和数据包，提供了诸如载具系统、王国系统、轨道交通建设、航天探索、随机特殊怪物等多种附加内容。特别的是，对于唯一的MTR模组和YSM模组，我们不强制要求玩家安装，您可以使用原版客户端，但可能无法与模组物体互动。</span></li><li style="text-align: left;"><span style="color: #24292f;"><strong>跨版本与跨平台支持</strong></span><span style="color: #24292f;">：尽管模组服务器有自身限制，我们仍提供跨版本（1.20-1.20.6）和跨启动器（基岩版）的游戏体验，让玩家在不同平台上畅享乐趣。不过，某些JAVA独有内容可能无法访问，例如汽车不会渲染，您需要出色的空间感知来驾驶“隐形”的载具。</span></li><li style="text-align: left;"><span style="color: #24292f;">🎉 </span><span style="color: #24292f;"><strong>多样的娱乐方式</strong></span><span style="color: #24292f;">：感到无聊？你可以跨服传送到其他区域，参加小游戏或RPG游戏，换个玩法也是不错的选择。</span></li><li style="text-align: left;"><span style="color: #24292f;">🌟 </span><span style="color: #24292f;"><strong>彩蛋与惊喜</strong></span><span style="color: #24292f;">：服务器各处隐藏着丰富的彩蛋，等待你用敏锐的双眼去发现。</span></li><li style="text-align: left;"><span style="color: #24292f;"><strong>独特的功能</strong></span><span style="color: #24292f;">：我们开放了许多在一般服务器几乎不可能见到的功能。你知道吗？在地球村服务器，不仅可以使用TPA请求传送，还能直接使用/tp &lt;坐标&gt;指令！</span></li><li style="text-align: left;"><span style="color: #24292f;">💰 </span><strong>福利多多：</strong>除了首次加入游戏可以领取的新手物资包外，经常上线的玩家有机会赶上我们的活动日——在特殊日子签到有机会获得丰厚物资奖励。世界地图的地下埋藏着丰富的矿产，挖矿挖到你手软！从此实现矿石自由</li><li style="text-align: left;"><span style="color: #24292f;"><strong>永不跑路的承诺</strong></span><span style="color: #24292f;">：即使因不可抗力服务器无法继续运行，我们也不会让玩家的珍贵回忆随之消失。我们会释放所有包含玩家建筑作品的地图文件，共同的回忆将永远存储在云盘中。</span></li><li class=" font-size-tag-custom s-text-font-size-over-default" style="text-align: left; font-size: 17px;"><span style="color: #24292f;">🎨 </span><span style="color: #24292f;"><strong>独家创造模式体验</strong></span><span style="color: #24292f;">：</span><br><span style="color: #24292f;">在大多数服务器中，创造模式是不可触及的特权，而在这里，我们为玩家们开启了全新的玩法——通过虚拟币兑换创造模式体验时长！无论你是建筑大师、红石工程师，还是喜欢自由探索的冒险家，我们都欢迎你来体验这无拘无束的创造乐趣。你不仅可以享受生存模式的挑战，还能随时切换到创造模式，实现你天马行空的想象力。建造宏伟的城堡、设计复杂的红石机关，或者只是简单地飞翔在广阔的世界中——一切由你决定！</span></li></ol></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></li><li class="slide s-section-3 " id="section-f_b5fdad72-5889-4a0a-87d7-f59f7b8ef82f"><div class="waypoint"></div><div class="section-anchor"></div><div>
+  <div class="lazyload  s-bg-image s-bg-blurred s-bg-light-text s-bg-overlay s-new-text-section s-section s-text-section s-new-mobile-layout   background-image" style="background-repeat:repeat;background-size:unset;background-color:transparent;background-position:50% 50%;background-image:url(images/590080/lohuRSpT1AJiCHhwd55fyZizZGs2.png)" data-bg="//user-assets.sxlcdn.com/images/590080/lohuRSpT1AJiCHhwd55fyZizZGs2.png?imageMogr2/strip/auto-orient/thumbnail/2000x1500&gt;/quality/90!/format/png" data-react-style="{&quot;backgroundRepeat&quot;:&quot;repeat&quot;,&quot;backgroundSize&quot;:&quot;unset&quot;,&quot;backgroundColor&quot;:&quot;transparent&quot;,&quot;backgroundPosition&quot;:&quot;50% 50%&quot;}"><style data-emotion="css 1tnf9eu">.css-1tnf9eu{position:absolute;top:0;left:0;width:100%;height:100%;line-height:1;-webkit-backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);-webkit-transition:all ease-in 0.2s;transition:all ease-in 0.2s;}.css-1tnf9eu.loaded{-webkit-backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);visibility:hidden;}</style><div class="blurred-layer css-1tnf9eu css-1oh32810"></div><div class="container"><div class="clearfix"><div class="columns sixteen"><div class="s-title-group"><div class="s-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-title" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper font-size-tag-custom s-text-font-size-over-50 s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 55px;"><span style="color: #ffa64d;"><strong>一些你想知道的信息</strong></span><span style="color: #ffa64d;"><strong>&nbsp;</strong></span></p><h2 class=" font-size-tag-header-two s-text-font-size-over-default" style="font-size: 28px;"><span style="display: inline-block">&nbsp;</span></h2></div></div></div></div></div><div class="s-subtitle"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><h3 class=" font-size-tag-header-three s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 24px;"><span style="color: #ffa64d;"><strong>JAVA端连接地址</strong></span><span style="color: #ffffff;">——earthvillage.top</span></h3><h3 class=" font-size-tag-header-three s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 24px;"><span style="color: #ffa64d;"><strong>基岩版地址</strong></span><span style="color: #ffffff;">——earthvillage.top或m.earthvillage.top</span></h3><h3 class=" font-size-tag-header-three s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 24px;">基岩版特别端口号填<span style="color: #cad1d8;">33000  (这个端口号可能会变，以该页实际为准)</span></h3><h3 class=" font-size-tag-header-three s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 24px;">（JAVA）可用版本：1.8-1.20+</h3><h3 class=" font-size-tag-header-three s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 24px;">服务器设备：I9-14900+12GB RAM</h3></div></div></div></div></div></div></div></div><div class="">
+      <div class="s-mh s-repeatable"><div class="s-section-item-wrapper"><div data-sorting-index="0" class="sixteen columns no-float s-repeatable-item"><div class="s-mhi"><div class="s-item-text-group "><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper"><span style="display: inline-block">&nbsp;</span></p><p style="text-align: center;"><em>（你没听错，基岩版玩家也可以进，只是很多精彩内容接触不到而已）</em></p><p style="text-align: center;"><em>（比如背景图的这些列车）</em></p><h3 class=" font-size-tag-header-three s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="text-align: center; font-size: 24px;"><span style="display: inline-block">&nbsp;</span></h3><p><span style="display: inline-block">&nbsp;</span></p></div></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block; background-color: rgba(190, 249, 192, 0.2);"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">一般来说，传统的模组服务器强制需要玩家客户端安装指定模组才能进入，十分不便 ，而我们采用了特殊方式强行兼容了多版本客户端，客户端可以不带指定模组也可以加入游戏，<span style="color: #ffffff;">原版部分</span>做到了跨平台跨版本互通，服务端并不会检测玩家客户端。玩家可以根据自己需求选装模组</p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="display: inline-block">&nbsp;</span></p><p><span style="color: #ffffff;">没啥用的客户端整合包下载链接↘</span></p></div></div></div></div></div><div class="s-item-button-wrapper"><div class="s-text-button"><div class="s-button s-component"><div><div class="s-component-content css-owv3vc"><a class="s-common-button s-custom-btn css-1hsaozc  s-font-button mobile-automatic pc-medium " href="https://www.123pan.com/s/WiuUVv-KNG0H.html" data-is-nav-btn="false" data-type="Web" data-component="button" target="_blank">戳我下载！！</a></div></div></div></div></div></div></div></div></div></div>
+    </div></div></div>
+</div></li><li class="slide s-section-4 " id="section-f_fe651617-6dfc-450f-a580-6485ff5cb0bb"><div class="waypoint"></div><div class="section-anchor"></div><div>
+  <div class="lazyload  s-bg-image s-bg-blurred s-bg-light-text s-bg-overlay s-process-section s-section   background-image" style="background-repeat:no-repeat;background-size:cover;background-color:transparent;background-position:50% 50%;background-image:url(images/590080/lqvpdm__uRQENozxZcoeyWK2kEew.png)" data-bg="//user-assets.sxlcdn.com/images/590080/lqvpdm__uRQENozxZcoeyWK2kEew.png?imageMogr2/strip/auto-orient/thumbnail/2000x1500&gt;/quality/90!/format/png" data-react-style="{&quot;backgroundRepeat&quot;:&quot;no-repeat&quot;,&quot;backgroundSize&quot;:&quot;cover&quot;,&quot;backgroundColor&quot;:&quot;transparent&quot;,&quot;backgroundPosition&quot;:&quot;50% 50%&quot;}"><style data-emotion="css 1tnf9eu">.css-1tnf9eu{position:absolute;top:0;left:0;width:100%;height:100%;line-height:1;-webkit-backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);-webkit-transition:all ease-in 0.2s;transition:all ease-in 0.2s;}.css-1tnf9eu.loaded{-webkit-backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);visibility:hidden;}</style><div class="blurred-layer css-1tnf9eu css-1oh32810"></div><div class="container"><div class="columns sixteen"><div class="s-title-group"><div class="s-title-beta-s6 s-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-title" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><h1 class="s-title s-font-title s-rich-text-wrapper font-size-tag-header-one s-text-font-size-over-40 s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper" style="font-size: 48px;">从零开始流程</h1><p class="s-title s-font-title s-rich-text-wrapper font-size-tag-custom s-text-font-size-over-default" style="font-size: 20px;"><span style="color: #ffffff;">↓这只老虎是腐竹变的↓</span></p></div></div></div></div></div></div><div class="">
+        <div class="s-mh s-repeatable"><div class="s-section-item-wrapper"><div data-sorting-index="0" class="four hide-linker-five columns no-float process-horizontal-layout s-repeatable-item"><div class="process-item-wrapper"><div class="process-item-infos"><div class="process-item-index s-font-body">1</div><div class="process-item-linker"></div></div><div class="s-item-text-group "><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><h3><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper">看看文档</p></div></h3></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">如果你什么都不懂</p><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">在进入服务器懵逼之前可先阅读精心编写的<a href="http://wiki.earthvillage.top" data-type="undefined" target="_blank">《地球村笨蛋文档》</a></p></div></div></div></div></div></div></div></div><div data-sorting-index="1" class="four hide-linker-five columns no-float process-horizontal-layout s-repeatable-item"><div class="process-item-wrapper"><div class="process-item-infos"><div class="process-item-index s-font-body">2</div><div class="process-item-linker"></div></div><div class="s-item-text-group "><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><h3><div class="s-rich-text-wrapper" style="display: block;"><p>添加域名</p></div></h3></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">从上方的域名中挑选适合你客户端的，并添加到“多人游戏”或“服务器”界面</p></div></div></div></div></div></div></div></div><div data-sorting-index="2" class="four hide-linker-five columns no-float process-horizontal-layout s-repeatable-item"><div class="process-item-wrapper"><div class="process-item-infos"><div class="process-item-index s-font-body">3</div><div class="process-item-linker"></div></div><div class="s-item-text-group "><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><h3><div class="s-rich-text-wrapper" style="display: block;"><p>注册/登录</p></div></h3></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">按照聊天栏提示输入指令</p><p class="s-rich-text-wrapper">注册/登录你的账户</p></div></div></div></div></div></div></div></div><div data-sorting-index="3" class="four hide-linker-five columns no-float process-horizontal-layout s-repeatable-item"><div class="process-item-wrapper"><div class="process-item-infos"><div class="process-item-index s-font-body">4</div></div><div class="s-item-text-group "><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><h3><div class="s-rich-text-wrapper" style="display: block;"><p>愉快的玩吧</p></div></h3></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">熟悉菜单、参观出生点设施···然后开始你想做的任何事， 有任何问题可以与我们联系！</p></div></div></div></div></div></div></div></div></div></div>
+      </div></div></div></div>
+</div></li><li class="slide s-section-5 " id="section-f_37377f0d-3eab-4029-9baf-70904c52752e"><div class="waypoint"></div><div class="section-anchor"></div><div>
+  <div class="lazyload  s-bg-image s-bg-blurred s-bg-light-text s-bg-overlay s-new-title-section s-section s-section-full     background-image" style="background-repeat:no-repeat;background-size:cover;background-color:transparent;background-position:50% 50%;background-image:url(images/590080/FpESMtSBxBnG6rOw9mw1PMZ6CdoJ.png)" data-bg="//user-assets.sxlcdn.com/images/590080/FpESMtSBxBnG6rOw9mw1PMZ6CdoJ.png?imageMogr2/strip/auto-orient/thumbnail/2000x1500&gt;/quality/90!/format/png" data-react-style="{&quot;backgroundRepeat&quot;:&quot;no-repeat&quot;,&quot;backgroundSize&quot;:&quot;cover&quot;,&quot;backgroundColor&quot;:&quot;transparent&quot;,&quot;backgroundPosition&quot;:&quot;50% 50%&quot;}"><style data-emotion="css 1tnf9eu">.css-1tnf9eu{position:absolute;top:0;left:0;width:100%;height:100%;line-height:1;-webkit-backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);-webkit-transition:all ease-in 0.2s;transition:all ease-in 0.2s;}.css-1tnf9eu.loaded{-webkit-backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);visibility:hidden;}</style><div class="blurred-layer css-1tnf9eu css-1oh32810"></div>
+  <div class="container" style="z-index:3"><div class="sixteen columns"><div class="media-wrapper "><div class="s-component s-media "><div><div class="s-component-content"><div class="s-img-wrapper"><div class="s-ratio-box" style="max-width:1080px;max-height:969px"><div class="s-ratio-fill" style="padding-bottom:89.72%"></div><div class="s-img-wrapper"><img alt="broken image" title="" class="lazyload crop-default" data-description="" data-image-link="javascript:void(0);" width="1080" height="969" src="images/590080/FlNnLrEV1LrKLgDQ6_o-axUVhnml.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000&gt;/quality/90!/interlace/1/format/jpeg" data-src="//user-assets.sxlcdn.com/images/590080/FlNnLrEV1LrKLgDQ6_o-axUVhnml.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000&gt;/quality/90!/interlace/1/format/jpeg"></div></div></div></div></div></div></div><div class="s-title-group"><div class="s-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-title" style="white-space:pre-wrap"><h2><div class="s-rich-text-wrapper" style="display: block;"><p>你好世界！</p></div></h2></div></div></div></div><div class="s-subtitle"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><h4><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper"><em>这是一定能用上的网页端神器哦！</em></p><p class="s-rich-text-wrapper font-size-tag-paragraph s-text-font-size-over-default" style="font-size: 18px;">你不仅可以看见全服玩家、交通线，在“世界地图”子页面还能和在线的玩家们聊天，让您仅打开浏览器即可和游戏内互动<span style="color: #ff4d4d;">（当然仅限聊天功能哈）</span></p></div></h4></div></div></div></div></div><div class="s-button-group "><div class="s-button s-component"><div><div class="s-component-content css-owv3vc"><a class="s-common-button s-custom-btn css-1hsaozc  s-font-button mobile-automatic pc-medium " href="https://map.earthvillage.top/" data-is-nav-btn="false" data-type="Web" data-component="button" target="_blank">点我进网页端</a></div></div></div></div></div></div>
+</div>
+</div></li><li class="slide s-section-6 " id="section-f_48b530c0-2d39-4a8f-855a-0c61dc105209"><div class="waypoint"></div><div class="section-anchor"></div><div>
+  <div class="lazyload  s-bg-image s-bg-blurred s-bg-light-text s-bg-overlay s-new-media-section s-section s-rows-section     s-media-new-mobile-layout background-image" style="background-repeat:no-repeat;background-size:cover;background-color:#a8a0ae;background-position:50% 50%;background-image:url(images/590080/lhPG01mxgYKles0TiRbm0hfuTnFR.png)" data-bg="//user-assets.sxlcdn.com/images/590080/lhPG01mxgYKles0TiRbm0hfuTnFR.png?imageMogr2/strip/auto-orient/thumbnail/2000x1500&gt;/quality/90!/format/png" data-react-style="{&quot;backgroundRepeat&quot;:&quot;no-repeat&quot;,&quot;backgroundSize&quot;:&quot;cover&quot;,&quot;backgroundColor&quot;:&quot;#a8a0ae&quot;,&quot;backgroundPosition&quot;:&quot;50% 50%&quot;}"><style data-emotion="css 1tnf9eu">.css-1tnf9eu{position:absolute;top:0;left:0;width:100%;height:100%;line-height:1;-webkit-backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);-webkit-transition:all ease-in 0.2s;transition:all ease-in 0.2s;}.css-1tnf9eu.loaded{-webkit-backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);visibility:hidden;}</style><div class="blurred-layer css-1tnf9eu css-1oh32810"></div><div class="container"><div class="columns sixteen"><div class="s-title-group"><div class="s-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-title" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><h1 class="s-rich-text-wrapper font-size-tag-header-one s-text-font-size-over-40 s-rich-text-wrapper" style="font-size: 48px;"><strong>交流社区</strong></h1></div></div></div></div></div><div class="s-subtitle"><div class="s-component s-text"><div class=""></div></div></div></div></div>
+    <div class="s-media-left s-layout-mediaLeft s-repeatable"><div class="s-section-item-wrapper"><div data-sorting-index="0" class=" s-repeatable-item"><div class="clearfix"><div class="new-media-item-wrapper"><div class="s-item-media-wrapper four columns  s-left-in-row s-rva-media"><div class="s-item-media-group"><div class="s-component s-media "><div><div class="s-component-content"><div class="s-img-wrapper"><a href="https://in.fanbook.cn/ReSKBFL3" target="_blank" aria-label="image link"><div class="s-ratio-box" style="max-width:669px;max-height:669px"><div class="s-ratio-fill" style="padding-bottom:100.00%"></div><div class="s-img-wrapper"><img alt="戳我戳我~" title="戳我戳我~" class="lazyload crop-default" data-description="" data-image-link="https://in.fanbook.cn/ReSKBFL3" width="669" height="669" src="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-4.png?imageMogr2/strip/auto-orient/thumbnail/720x1440&gt;/quality/90!/format/png" data-src="//user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/720x1440&gt;/quality/90!/format/png"></div></div></a></div></div></div></div></div></div><div class="twelve columns s-right-in-row s-rva-text"><div class="s-item-text-group half-offset-left"><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><h2 class="s-rich-text-wrapper s-rich-text-wrapper font-size-tag-header-two s-text-font-size-over-default s-rich-text-wrapper" style="text-align: center; font-size: 28px;"><span style="color: #ffffff;"><strong>Fanbook新社区</strong></span></h2><p class="s-rich-text-wrapper s-rich-text-wrapper">号码：609974092120309760</p></div></div></div></div></div><div class="s-item-subtitle"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><h6><p>（不推荐）</p></h6></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper">通过这个频道获取最<span style='background-color: rgb(233, 247, 246); color: rgb(0, 0, 0); font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Helvetica, Arial; font-size: 16px; '>不̶</span><span style="font-family: inherit; background-color: transparent;">及时的更新公告，或反馈</span><span style='background-color: rgb(233, 247, 246); color: rgb(0, 0, 0); font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Helvetica, Arial; font-size: 16px; '>永̶远̶没̶人̶</span><span style="background-color: transparent; font-family: inherit;">回答的问题，或提供奇奇怪怪的建议，还可以发更多内容！就像Discord！</span></p></div></div></div></div></div><div class=""><div class="s-text-button"><div class="s-button s-component"><div><div class="s-component-content css-owv3vc"><a class="s-common-button s-custom-btn css-vir0km  s-font-button mobile-automatic pc-medium " href="https://in.fanbook.cn/ReSKBFL3" data-is-nav-btn="false" data-type="Web" data-component="button" target="_blank">访问（即将停止营业）</a></div></div></div></div></div></div></div></div></div></div><div data-sorting-index="1" class=" s-repeatable-item"><div class="clearfix"><div class="new-media-item-wrapper"><div class="s-item-media-wrapper four columns  s-left-in-row s-rva-media"><div class="s-item-media-group"><div class="s-component s-media "><div><div class="s-component-content"><div class="s-img-wrapper"><a href="https://emc404.mysxl.cn/" aria-label="image link"><div class="s-ratio-box" style="max-width:669px;max-height:669px"><div class="s-ratio-fill" style="padding-bottom:100.00%"></div><div class="s-img-wrapper"><img alt="戳我？" title="戳我？" class="lazyload crop-default" data-description="" data-image-link="https://emc404.mysxl.cn/" width="669" height="669" aspectratio="" src="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-4.png?imageMogr2/strip/auto-orient/thumbnail/720x1440&gt;/quality/90!/format/png" data-src="//user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/720x1440&gt;/quality/90!/format/png"></div></div></a></div></div></div></div></div></div><div class="twelve columns s-right-in-row s-rva-text"><div class="s-item-text-group half-offset-left"><div class="s-item-title"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-heading" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><h2 class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper font-size-tag-header-two s-text-font-size-over-default s-rich-text-wrapper s-rich-text-wrapper" style="text-align: center; font-size: 28px;"><strong>QQ群</strong></h2><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">号码：638011512</p></div></div></div></div></div><div class="s-item-subtitle"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><h6><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper">地球村Q群！</p><p class="s-rich-text-wrapper">地球村Q群</p><p class="s-rich-text-wrapper">恢复了！恢复了</p></div></h6></div></div></div></div><div class="s-item-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper">通过这个群聊获取及时的更新公告，或反馈问题，或提供建议，或闲聊</p></div></div></div></div></div><div class=""><div class="s-text-button"><div class="s-button s-component"><div><div class="s-component-content css-owv3vc"><a class="s-common-button s-custom-btn css-1roz1p  s-font-button mobile-automatic pc-medium " href="https://map.earthvillage.top/qqun.html" data-is-nav-btn="false" data-type="Web" data-component="button" target="_blank">荣耀回归！</a></div></div></div></div></div></div></div></div></div></div></div></div>
+  </div></div>
+</div><div class="waypoint"></div></li></ul><div id="prerendered-inline-theme-html"></div></div><div class="navigation-buttons strikingly-fixed" style="bottom:20px"><span class="prev"></span><span class="next"></span></div><div id="strikingly-tooltip-container"></div><div id="s-footer-section-container" class=""><div class="lazyload  s-bg-gray s-footer-section s-section show-strikingly-logo      background-image" data-react-style="{}"><div class="container s-layout-grid s-layout-image"><div class="clearfix"><div class="columns half-fixed img three"><div class="left-align s-footer-text"><div class="s-component s-image"><div><div class="s-component-content"><div class="s-img-wrapper"><div class="s-ratio-box" style="max-width:669px;max-height:669px"><div class="s-ratio-fill" style="padding-bottom:100.00%"></div><div class="s-img-wrapper"><img alt="腐竹本虎" title="腐竹本虎" class="lazyload crop-default" data-description="" data-image-link="javascript:void(0);" width="669" height="669" src="images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj-3.png?imageMogr2/strip/auto-orient/thumbnail/300x300&gt;/quality/90!/format/png" data-src="//user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/300x300&gt;/quality/90!/format/png"></div></div></div></div></div></div></div></div><div class="columns half-fixed three"><div class="left-align s-footer-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper"><a href="https://space.bilibili.com/538682258" data-type="undefined" target="_blank"><strong>欢迎关注我的Bilibili空间</strong></a></p></div></div></div></div></div></div><div class="columns float-right four half-fixed right-align"><div><div class="waypoint"></div></div></div></div><div class="clearfix has-copy-right"><div class="columns no-float sixteen"><div class="separate-line"></div></div><div class="columns no-float s-text-color-gray  ten"><div class="left-align s-footer-text"><div class="s-component s-text"><div class=""><div class="s-component-content s-font-body" style="white-space:pre-wrap"><div class="s-rich-text-wrapper" style="display: block;"><p class="s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper s-rich-text-wrapper">地球村——EarthVillage © 2019～145370</p></div></div></div></div></div></div><div class="columns no-float s-text-color-gray six"><div class="right-align s-footer-text" style="margin-top:-10px"><div class="s-terms-link s-font-body" style="position:relative"><span class="s-common-link" target="_blank">隐私政策</span></div></div></div></div></div></div></div><div class="s-footer-logo-wrapper" style="width:100%"></div><div id="ecommerce-drawer" class="s-category-drawer-wrapper"></div><div id="blog-category-drawer" class="s-category-drawer-wrapper"></div><div></div><div class="s-floated-components"><div></div><div><div id="s-ecommerce-shopping-cart-wrapper" class="s-ecommerce-shopping-cart-wrapper no-cart"></div><div id="fixedContainer"><div id="fixedLoginContainer" class="fixed-login-container"></div><div id="fixedMultiLangSwitcher" class="fixed-multi-lang-container"></div></div></div><div id="s-new-mobile-actions-wrapper" class=""><ul class="s-mobile-actions clearfix s-font-body"></ul></div></div><div class="social-thumbnail"><div id="lw-share-data" style="display:none"><div class="lws-title">地球村——交通强国·铁路先行 ||创造·生活||全球首个跨平台跨版本的MOD·插件·数据包混合服务器||独家创造模式体验系统</div><div class="lws-description">与自然同在，和生命永存
+交通强服——铁路先行</div><div class="lws-image">https://user-assets.sxlcdn.com/images/590080/FkR2yuBnU4N1x2HWvFyUd_ycwMbj.png?imageMogr2/strip/auto-orient/thumbnail/1200x630&gt;/quality/90!/format/png</div></div></div><script class="script-loader">(function(){var initScrollData = function(){window.cachedScrollData=null,window.ssrScrollListener=function(){window.cachedScrollData={top:window.scrollY,left:0}},window.addEventListener("scroll",window.ssrScrollListener)}; initScrollData();})()</script></div></div></div></div>
+</div>
+<div id='fb-root'></div>
+<div id='app-script-root'></div>
+<div id='app-view-root'></div>
+<div class='s-cookie-notification-bar' style='position: fixed; bottom: -1000px !important;'>
+<div class='cookie-notification-title'>Cookie的使用</div>
+<span class='cookie-notification-text'>我们使用cookies来确保流畅的浏览体验。若继续，我们认为你接受使用cookies。</span>
+<div>
+<button>确认</button>
+</div>
+<a href='pages/cookie-policy.html' target='_blank'>了解更多</a>
+</div>
+<script src="ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- *! lazysizes - v5.3.2 */ -->
+<script>
+!function(e){var t=function(u,D,f){"use strict";var k,H;if(function(){var e;var t={lazyClass:"lazyload",loadedClass:"lazyloaded",loadingClass:"lazyloading",preloadClass:"lazypreload",errorClass:"lazyerror",autosizesClass:"lazyautosizes",fastLoadedClass:"ls-is-cached",iframeLoadMode:0,srcAttr:"data-src",srcsetAttr:"data-srcset",sizesAttr:"data-sizes",minSize:40,customMedia:{},init:true,expFactor:1.5,hFac:.8,loadMode:2,loadHidden:true,ricTimeout:0,throttleDelay:125};H=u.lazySizesConfig||u.lazysizesConfig||{};for(e in t){if(!(e in H)){H[e]=t[e]}}}(),!D||!D.getElementsByClassName){return{init:function(){},cfg:H,noSupport:true}}var O=D.documentElement,i=u.HTMLPictureElement,P="addEventListener",$="getAttribute",q=u[P].bind(u),I=u.setTimeout,U=u.requestAnimationFrame||I,o=u.requestIdleCallback,j=/^picture$/i,r=["load","error","lazyincluded","_lazyloaded"],a={},G=Array.prototype.forEach,J=function(e,t){if(!a[t]){a[t]=new RegExp("(\\s|^)"+t+"(\\s|$)")}return a[t].test(e[$]("class")||"")&&a[t]},K=function(e,t){if(!J(e,t)){e.setAttribute("class",(e[$]("class")||"").trim()+" "+t)}},Q=function(e,t){var a;if(a=J(e,t)){e.setAttribute("class",(e[$]("class")||"").replace(a," "))}},V=function(t,a,e){var i=e?P:"removeEventListener";if(e){V(t,a)}r.forEach(function(e){t[i](e,a)})},X=function(e,t,a,i,r){var n=D.createEvent("Event");if(!a){a={}}a.instance=k;n.initEvent(t,!i,!r);n.detail=a;e.dispatchEvent(n);return n},Y=function(e,t){var a;if(!i&&(a=u.picturefill||H.pf)){if(t&&t.src&&!e[$]("srcset")){e.setAttribute("srcset",t.src)}a({reevaluate:true,elements:[e]})}else if(t&&t.src){e.src=t.src}},Z=function(e,t){return(getComputedStyle(e,null)||{})[t]},s=function(e,t,a){a=a||e.offsetWidth;while(a<H.minSize&&t&&!e._lazysizesWidth){a=t.offsetWidth;t=t.parentNode}return a},ee=function(){var a,i;var t=[];var r=[];var n=t;var s=function(){var e=n;n=t.length?r:t;a=true;i=false;while(e.length){e.shift()()}a=false};var e=function(e,t){if(a&&!t){e.apply(this,arguments)}else{n.push(e);if(!i){i=true;(D.hidden?I:U)(s)}}};e._lsFlush=s;return e}(),te=function(a,e){return e?function(){ee(a)}:function(){var e=this;var t=arguments;ee(function(){a.apply(e,t)})}},ae=function(e){var a;var i=0;var r=H.throttleDelay;var n=H.ricTimeout;var t=function(){a=false;i=f.now();e()};var s=o&&n>49?function(){o(t,{timeout:n});if(n!==H.ricTimeout){n=H.ricTimeout}}:te(function(){I(t)},true);return function(e){var t;if(e=e===true){n=33}if(a){return}a=true;t=r-(f.now()-i);if(t<0){t=0}if(e||t<9){s()}else{I(s,t)}}},ie=function(e){var t,a;var i=99;var r=function(){t=null;e()};var n=function(){var e=f.now()-a;if(e<i){I(n,i-e)}else{(o||r)(r)}};return function(){a=f.now();if(!t){t=I(n,i)}}},e=function(){var v,m,c,h,e;var y,z,g,p,C,b,A;var n=/^img$/i;var d=/^iframe$/i;var E="onscroll"in u&&!/(gle|ing)bot/.test(navigator.userAgent);var _=0;var w=0;var M=0;var N=-1;var L=function(e){M--;if(!e||M<0||!e.target){M=0}};var x=function(e){if(A==null){A=Z(D.body,"visibility")=="hidden"}return A||!(Z(e.parentNode,"visibility")=="hidden"&&Z(e,"visibility")=="hidden")};var W=function(e,t){var a;var i=e;var r=x(e);g-=t;b+=t;p-=t;C+=t;while(r&&(i=i.offsetParent)&&i!=D.body&&i!=O){r=(Z(i,"opacity")||1)>0;if(r&&Z(i,"overflow")!="visible"){a=i.getBoundingClientRect();r=C>a.left&&p<a.right&&b>a.top-1&&g<a.bottom+1}}return r};var t=function(){var e,t,a,i,r,n,s,o,l,u,f,c;var d=k.elements;if((h=H.loadMode)&&M<8&&(e=d.length)){t=0;N++;for(;t<e;t++){if(!d[t]||d[t]._lazyRace){continue}if(!E||k.prematureUnveil&&k.prematureUnveil(d[t])){R(d[t]);continue}if(!(o=d[t][$]("data-expand"))||!(n=o*1)){n=w}if(!u){u=!H.expand||H.expand<1?O.clientHeight>500&&O.clientWidth>500?500:370:H.expand;k._defEx=u;f=u*H.expFactor;c=H.hFac;A=null;if(w<f&&M<1&&N>2&&h>2&&!D.hidden){w=f;N=0}else if(h>1&&N>1&&M<6){w=u}else{w=_}}if(l!==n){y=innerWidth+n*c;z=innerHeight+n;s=n*-1;l=n}a=d[t].getBoundingClientRect();if((b=a.bottom)>=s&&(g=a.top)<=z&&(C=a.right)>=s*c&&(p=a.left)<=y&&(b||C||p||g)&&(H.loadHidden||x(d[t]))&&(m&&M<3&&!o&&(h<3||N<4)||W(d[t],n))){R(d[t]);r=true;if(M>9){break}}else if(!r&&m&&!i&&M<4&&N<4&&h>2&&(v[0]||H.preloadAfterLoad)&&(v[0]||!o&&(b||C||p||g||d[t][$](H.sizesAttr)!="auto"))){i=v[0]||d[t]}}if(i&&!r){R(i)}}};var a=ae(t);var S=function(e){var t=e.target;if(t._lazyCache){delete t._lazyCache;return}L(e);K(t,H.loadedClass);Q(t,H.loadingClass);V(t,B);X(t,"lazyloaded")};var i=te(S);var B=function(e){i({target:e.target})};var T=function(e,t){var a=e.getAttribute("data-load-mode")||H.iframeLoadMode;if(a==0){e.contentWindow.location.replace(t)}else if(a==1){e.src=t}};var F=function(e){var t;var a=e[$](H.srcsetAttr);if(t=H.customMedia[e[$]("data-media")||e[$]("media")]){e.setAttribute("media",t)}if(a){e.setAttribute("srcset",a)}};var s=te(function(t,e,a,i,r){var n,s,o,l,u,f;if(!(u=X(t,"lazybeforeunveil",e)).defaultPrevented){if(i){if(a){K(t,H.autosizesClass)}else{t.setAttribute("sizes",i)}}s=t[$](H.srcsetAttr);n=t[$](H.srcAttr);if(r){o=t.parentNode;l=o&&j.test(o.nodeName||"")}f=e.firesLoad||"src"in t&&(s||n||l);u={target:t};K(t,H.loadingClass);if(f){clearTimeout(c);c=I(L,2500);V(t,B,true)}if(l){G.call(o.getElementsByTagName("source"),F)}if(s){t.setAttribute("srcset",s)}else if(n&&!l){if(d.test(t.nodeName)){T(t,n)}else{t.src=n}}if(r&&(s||l)){Y(t,{src:n})}}if(t._lazyRace){delete t._lazyRace}Q(t,H.lazyClass);ee(function(){var e=t.complete&&t.naturalWidth>1;if(!f||e){if(e){K(t,H.fastLoadedClass)}S(u);t._lazyCache=true;I(function(){if("_lazyCache"in t){delete t._lazyCache}},9)}if(t.loading=="lazy"){M--}},true)});var R=function(e){if(e._lazyRace){return}var t;var a=n.test(e.nodeName);var i=a&&(e[$](H.sizesAttr)||e[$]("sizes"));var r=i=="auto";if((r||!m)&&a&&(e[$]("src")||e.srcset)&&!e.complete&&!J(e,H.errorClass)&&J(e,H.lazyClass)){return}t=X(e,"lazyunveilread").detail;if(r){re.updateElem(e,true,e.offsetWidth)}e._lazyRace=true;M++;s(e,t,r,i,a)};var r=ie(function(){H.loadMode=3;a()});var o=function(){if(H.loadMode==3){H.loadMode=2}r()};var l=function(){if(m){return}if(f.now()-e<999){I(l,999);return}m=true;H.loadMode=3;a();q("scroll",o,true)};return{_:function(){e=f.now();k.elements=D.getElementsByClassName(H.lazyClass);v=D.getElementsByClassName(H.lazyClass+" "+H.preloadClass);q("scroll",a,true);q("resize",a,true);q("pageshow",function(e){if(e.persisted){var t=D.querySelectorAll("."+H.loadingClass);if(t.length&&t.forEach){U(function(){t.forEach(function(e){if(e.complete){R(e)}})})}}});if(u.MutationObserver){new MutationObserver(a).observe(O,{childList:true,subtree:true,attributes:true})}else{O[P]("DOMNodeInserted",a,true);O[P]("DOMAttrModified",a,true);setInterval(a,999)}q("hashchange",a,true);["focus","mouseover","click","load","transitionend","animationend"].forEach(function(e){D[P](e,a,true)});if(/d$|^c/.test(D.readyState)){l()}else{q("load",l);D[P]("DOMContentLoaded",a);I(l,2e4)}if(k.elements.length){t();ee._lsFlush()}else{a()}},checkElems:a,unveil:R,_aLSL:o}}(),re=function(){var a;var n=te(function(e,t,a,i){var r,n,s;e._lazysizesWidth=i;i+="px";e.setAttribute("sizes",i);if(j.test(t.nodeName||"")){r=t.getElementsByTagName("source");for(n=0,s=r.length;n<s;n++){r[n].setAttribute("sizes",i)}}if(!a.detail.dataAttr){Y(e,a.detail)}});var i=function(e,t,a){var i;var r=e.parentNode;if(r){a=s(e,r,a);i=X(e,"lazybeforesizes",{width:a,dataAttr:!!t});if(!i.defaultPrevented){a=i.detail.width;if(a&&a!==e._lazysizesWidth){n(e,r,i,a)}}}};var e=function(){var e;var t=a.length;if(t){e=0;for(;e<t;e++){i(a[e])}}};var t=ie(e);return{_:function(){a=D.getElementsByClassName(H.autosizesClass);q("resize",t)},checkElems:t,updateElem:i}}(),t=function(){if(!t.i&&D.getElementsByClassName){t.i=true;re._();e._()}};return I(function(){H.init&&t()}),k={cfg:H,autoSizer:re,loader:e,init:t,uP:Y,aC:K,rC:Q,hC:J,fire:X,gW:s,rAF:ee}}(e,e.document,Date);e.lazySizes=t,"object"==typeof module&&module.exports&&(module.exports=t)}("undefined"!=typeof window?window:{});
+</script>
+
+<script>
+document.addEventListener('lazybeforeunveil', function(e){var bg = e.target.getAttribute('data-bg');if(bg){ e.target.style.backgroundImage = 'url(' + bg + ')';var blurredBg = e.target.getElementsByClassName('blurred-layer')[0];if (blurredBg) {blurredBg.className += ' loaded'}}});
+</script>
+<script>
+var _gaq = _gaq || [];
+if (typeof getCookieItem === 'function' && (getCookieItem('__strk_cookie_eu_visitor') != 'true' || getCookieItem('__is_open_strk_analytics_cookie'))) {
+   // Google Analytics (Universal) Setup
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','__ga');
+}
+</script>
+
+<div id='s-support-widget-container'></div>
+<!-- CUSTOM_CODE_START -->
+<!-- CUSTOM_CODE_END -->
+
+<script src="i18n-2ace11ac644d0b40fb8b7cb65e9dd1e553022750e0254118dacbe1fe50735e97.js" defer="defer"></script>
+<script>
+  window.pingpp = {}
+</script>
+<script src="webpack/page-site-bundle.208da9a092d8807bee71.js" defer="defer"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    if (window._) {
+      window._.VERSION = '4.17.21';
+    }
+  })
+  window.addEventListener('load', function() {
+    if (window.afterBundleLoadTrack) {
+      afterBundleLoadTrack()
+    }
+  })
+</script>
+</body>
+</html>
+<!-- Powered by Sxl.cn 4 (1) Mar 01, 2025 at 12:46-->
